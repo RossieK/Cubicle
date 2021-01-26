@@ -19,7 +19,8 @@ router.post('/create', (req, res) => {
 });
 
 router.get('/details/:id', (req, res) => {
-    res.render('details', { title: 'Details' });
+    let product = productService.getOne(req.params.id);
+    res.render('details', { title: 'Details', product });
 });
 
 module.exports = router;

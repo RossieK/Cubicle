@@ -7,6 +7,10 @@ function getAll() {
     return productsData;
 }
 
+function getOne(id) {
+    return productsData.find(x => x.id == id);
+}
+
 function createProduct(data) {
     let cube = new Cube(uniqid(), data.name, data.description, data.imageUrl, data.difficultyLevel);
 
@@ -24,4 +28,5 @@ function createProduct(data) {
 module.exports = {
     create: createProduct,
     getAll,
+    getOne
 }
