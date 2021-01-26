@@ -1,11 +1,9 @@
 const uniqid = require('uniqid');
 const Cube = require('../models/Cube');
-const fs = require('fs');
-const productsData = require('../config/products.json');
-const { search } = require('../controllers/aboutController');
+const productData = require('../data/productData');
 
 function getAll(query) {
-    let result = productsData;
+    let result = productData.getAll();
 
     if (query.search) {
         result = result.filter(x => x.name.toLowerCase().includes(query.search.toLowerCase()));
@@ -24,15 +22,13 @@ function getAll(query) {
 }
 
 function getOne(id) {
-    return productsData.find(x => x.id == id);
+    return productData.getOne(id);
 }
 
 function createProduct(data, callback) {
     let cube = new Cube(uniqid(), data.name, data.description, data.imageUrl, data.difficultyLevel);
 
-    productsData.push(cube);
-
-    fs.writeFile(__dirname + '/../config/products.json', JSON.stringify(productsData), callback);
+    return productData.create(cube, callback);
 }
 
 module.exports = {
