@@ -10,6 +10,11 @@ router.get('/create', (req, res) => {
     res.render('create', { title: "Add a cube" });
 });
 
+router.post('/create', (req, res) => {
+    console.log(req.body);
+    res.redirect('/');
+});
+
 router.get('/details/:id', (req, res) => {
     res.render('details', { title: 'Details' });
 });

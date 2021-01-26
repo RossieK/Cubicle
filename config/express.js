@@ -13,6 +13,10 @@ function setupExpress(app) {
     // Add static files
     app.use(express.static('public'));
 
+    //Body parser
+    app.use(express.urlencoded({
+        extended: true
+    }));
 }
 
 module.exports = setupExpress;
