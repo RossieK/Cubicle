@@ -2,9 +2,16 @@ const uniqid = require('uniqid');
 const Cube = require('../models/Cube');
 const fs = require('fs');
 const productsData = require('../config/products.json');
+const { search } = require('../controllers/aboutController');
 
-function getAll() {
-    return productsData;
+function getAll(query) {
+    let result = productsData;
+
+    if (query.search) {
+        result = result.filter(x => x.name.toLowerCase().includes(query.search.toLowerCase()));
+    }
+
+    return result;
 }
 
 function getOne(id) {
