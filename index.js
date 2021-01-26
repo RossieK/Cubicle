@@ -1,18 +1,10 @@
 const config = require('./config/config');
 const express = require('express');
-const handlebars = require('express-handlebars');
+const expressConfig = require('./config/express');
 
+// Initialize app
 const app = express();
-
-// Handlebars
-app.engine('hbs', handlebars({
-    extname: 'hbs'
-}));
-
-app.set('view engine', 'hbs');
-
-// Add static files
-app.use(express.static('public'));
+expressConfig(app);
 
 // Routes
 app.get('/', (req, res) => {
