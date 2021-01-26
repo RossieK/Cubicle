@@ -11,6 +11,9 @@ app.engine('hbs', handlebars({
 
 app.set('view engine', 'hbs');
 
+// Add static files
+app.use(express.static('public'));
+
 // Routes
 app.get('/', (req, res) => {
     res.render('index', { layout: false });
