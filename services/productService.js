@@ -11,18 +11,12 @@ function getOne(id) {
     return productsData.find(x => x.id == id);
 }
 
-function createProduct(data) {
+function createProduct(data, callback) {
     let cube = new Cube(uniqid(), data.name, data.description, data.imageUrl, data.difficultyLevel);
 
     productsData.push(cube);
 
-    fs.writeFile(__dirname + '/../config/products.json', JSON.stringify(productsData), (err) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-
-    });
+    fs.writeFile(__dirname + '/../config/products.json', JSON.stringify(productsData), callback);
 }
 
 module.exports = {
