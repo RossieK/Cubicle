@@ -14,16 +14,9 @@ router.get('/create', (req, res) => {
 });
 
 router.post('/create', validateProduct, (req, res) => {
-    productService.create(req.body, (err) => {
-        if (err) {
-            console.error(err);
-            res.status(500);
-            return;
-        }
-
-        res.redirect('/');
-    });
-
+    productService.create(req.body)
+        .then(() => res.redirect('/'))
+        .catch(() => res.status(500).end());
 });
 
 router.get('/details/:id', (req, res) => {
