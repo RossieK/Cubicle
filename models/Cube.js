@@ -1,23 +1,13 @@
-const fs = require('fs/promises');
-const path = require('path');
 const productsData = require('../config/products.json');
+const Model = require('./Model');
 
-class Cube {
+class Cube extends Model {
     constructor(id, name, description, imageUrl, level) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
         this.level = level;
-    }
-
-    save() {
-        productsData.push(this);
-
-        return fs.writeFile(
-            path.join(__dirname, '../config/products.json'),
-            JSON.stringify(productsData),
-        );
     }
 
     static getAll() {
