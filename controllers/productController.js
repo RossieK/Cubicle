@@ -5,8 +5,12 @@ const validateProduct = require('../helpers/productHelpers');
 const router = Router();
 
 router.get('/', (req, res) => {
-    let products = productService.getAll(req.query);
-    res.render('index', { title: "Cubicle", products });
+    productService.getAll(req.query)
+        .then(products => {
+            res.render('index', { title: "Cubicle", products });
+        })
+        .catch(() => res.status(500).end());
+
 });
 
 router.get('/create', (req, res) => {
@@ -20,8 +24,11 @@ router.post('/create', validateProduct, (req, res) => {
 });
 
 router.get('/details/:id', (req, res) => {
-    let product = productService.getOne(req.params.id);
-    res.render('details', { title: 'Details', product });
+    productService.getOne(req.params.id)
+        .then(product => {
+            res.render('details', { title: 'Details', product });
+        })
+        .catch(() => res.status(500).end());
 });
 
 module.exports = router;
