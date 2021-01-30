@@ -5,7 +5,7 @@ const { validateAccessory } = require('../helpers/validationMiddlewares');
 const router = Router();
 
 router.get('/create', (req, res) => {
-    res.render('createAccessory');
+    res.render('createAccessory', { title: "Add accessory" });
 });
 
 router.post('/create', validateAccessory, (req, res) => {

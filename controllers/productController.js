@@ -37,7 +37,7 @@ router.get('/:id/attach', (req, res) => {
         .then(product => {
             accessoryService.getAllWithout(product.accessories)
                 .then(accessories => {
-                    res.render('attachAccessory', { product, accessories });
+                    res.render('attachAccessory', { title: "Attach accessory", product, accessories });
                 });
         })
         .catch(() => res.status(500).end());

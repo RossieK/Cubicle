@@ -9,11 +9,11 @@ async function getAll(query) {
     }
 
     if (query.from) {
-        result = result.filter(x => Number(x.level) >= query.from);
+        result = result.filter(x => Number(x.difficultyLevel) >= query.from);
     }
 
     if (query.to) {
-        result = result.filter(x => Number(x.level) <= query.to);
+        result = result.filter(x => Number(x.difficultyLevel) <= query.to);
     }
 
 
