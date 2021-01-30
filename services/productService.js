@@ -20,9 +20,12 @@ async function getAll(query) {
     return result;
 }
 
-async function getOne(id) {
-    let cube = await Cube.findById(id).lean();
-    return cube;
+function getOne(id) {
+    return Cube.findById(id).lean();
+}
+
+function getOneWithAccessories(id) {
+    return Cube.findById(id).populate('accessories').lean();
 }
 
 function createProduct(data) {
@@ -43,5 +46,6 @@ module.exports = {
     create: createProduct,
     getAll,
     getOne,
-    attachAccessory
+    attachAccessory,
+    getOneWithAccessories
 }

@@ -25,7 +25,7 @@ router.post('/create', validateProduct, (req, res) => {
 });
 
 router.get('/details/:id', (req, res) => {
-    productService.getOne(req.params.id)
+    productService.getOneWithAccessories(req.params.id)
         .then(product => {
             res.render('details', { title: 'Details', product });
         })
