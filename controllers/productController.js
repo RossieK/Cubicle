@@ -42,4 +42,10 @@ router.get('/:id/attach', async(req, res) => {
         .catch(() => res.status(500).end());
 });
 
+router.post('/:id/attach', (req, res) => {
+    productService.attachAccessory(req.params.id, req.body.accessory)
+        .then(() => res.redirect(`/details/${req.params.id}`))
+        .catch(() => res.status(500).end());
+});
+
 module.exports = router;
