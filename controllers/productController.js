@@ -32,12 +32,13 @@ router.get('/details/:id', (req, res) => {
         .catch(() => res.status(500).end());
 });
 
-router.get('/:id/attach', async(req, res) => {
-    let accessories = await accessoryService.getAll();
-
+router.get('/:id/attach', (req, res) => {
     productService.getOne(req.params.id)
         .then(product => {
-            res.render('attachAccessory', { product, accessories });
+            accessoryService.getAllWithout(product.accessories)
+                .then(accessories => {
+                    res.render('attachAccessory', { product, accessories });
+                });
         })
         .catch(() => res.status(500).end());
 });
