@@ -24,7 +24,7 @@ async function login({ username, password }) {
         message: 'Password doesn\'t match!'
     }
 
-    let token = jwt.sign({ _id: user._id }, config.SECRET);
+    let token = jwt.sign({ _id: user._id, roles: ['admin'] }, config.SECRET);
     return token;
 }
 
