@@ -2,13 +2,16 @@ const { Router } = require('express');
 const authService = require('../services/authService');
 const config = require('../config/config');
 
+const isGuest = require('../helpers/isGuest');
+const isAuthenticated = require('../helpers/isAuthenticated');
+
 const router = Router();
 
-router.get('/login', (req, res) => {
+router.get('/login', isGuest, (req, res) => {
     res.render('login', { title: 'Login page' });
 });
 
-router.post('/login', async(req, res) => {
+router.post('/login', isGuest, async(req, res) => {
     const { username, password } = req.body;
 
     try {
@@ -20,11 +23,11 @@ router.post('/login', async(req, res) => {
     }
 });
 
-router.get('/register', (req, res) => {
+router.get('/register', isGuest, (req, res) => {
     res.render('register', { title: 'Register page' });
 });
 
-router.post('/register', async(req, res) => {
+router.post('/register', isGuest, async(req, res) => {
     const { username, password, repeatPassword } = req.body;
 
     if (password !== repeatPassword) {
@@ -37,6 +40,11 @@ router.post('/register', async(req, res) => {
     } catch (error) {
         res.render('register', { error });
     }
+});
+
+router.get('/logout', isAuthenticated, (req, res) => {
+    res.clearCookie(config.COOKIE_NAME)
+    res.redirect('/');
 });
 
 module.exports = router;
