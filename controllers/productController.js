@@ -2,6 +2,7 @@ const { Router } = require('express');
 const productService = require('../services/productService');
 const accessoryService = require('../services/accessoryService');
 const { validateProduct } = require('../helpers/validationMiddlewares');
+const isAuthenticated = require('../helpers/isAuthenticated');
 
 const router = Router();
 
@@ -14,11 +15,11 @@ router.get('/', (req, res) => {
 
 });
 
-router.get('/create', (req, res) => {
+router.get('/create', isAuthenticated, (req, res) => {
     res.render('create', { title: "Add a cube" });
 });
 
-router.post('/create', validateProduct, (req, res) => {
+router.post('/create', isAuthenticated, validateProduct, (req, res) => {
     productService.create(req.body)
         .then(() => res.redirect('/'))
         .catch(() => res.status(500).end());
@@ -32,7 +33,7 @@ router.get('/details/:id', (req, res) => {
         .catch(() => res.status(500).end());
 });
 
-router.get('/:id/attach', (req, res) => {
+router.get('/:id/attach', isAuthenticated, (req, res) => {
     productService.getOne(req.params.id)
         .then(product => {
             accessoryService.getAllWithout(product.accessories)
@@ -43,7 +44,7 @@ router.get('/:id/attach', (req, res) => {
         .catch(() => res.status(500).end());
 });
 
-router.post('/:id/attach', (req, res) => {
+router.post('/:id/attach', isAuthenticated, (req, res) => {
     productService.attachAccessory(req.params.id, req.body.accessory)
         .then(() => res.redirect(`/details/${req.params.id}`))
         .catch(() => res.status(500).end());
