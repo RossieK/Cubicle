@@ -1,15 +1,15 @@
 <main>
   <h1>Edit Cube</h1>
   <div class="form">
-    <form action='/{{_id}}/edit' method="POST">
+    <form action='/{{product._id}}/edit' method="POST">
       <label for="name">Name</label>
-      <input type="text" id="name" name="name" value="{{name}}">
+      <input type="text" id="name" name="name" value="{{product.name}}">
       <label for="name">Description</label>
-      <textarea id="name" name="description">{{description}}</textarea>
+      <textarea id="name" name="description">{{product.description}}</textarea>
       <label for="image">ImageUrl</label>
-      <input type="text" id="image" name="imageUrl" value="{{imageUrl}}">
+      <input type="text" id="image" name="imageUrl" value="{{product.imageUrl}}">
       <label for="difficulty">Difficulty</label>
-      <select id="difficulty" name="difficultyLevel" selected>
+      <select id="difficulty" name="difficultyLevel">
         <option value="1">1 - Very Easy</option>
         <option value="2">2 - Easy</option>
         <option value="3">3 - Medium (Standard 3x3)</option>
@@ -23,5 +23,5 @@
 </main>
 
 <script>
-  document.querySelector(`option[value="{{difficultyLevel}}"]`).setAttribute("selected", "true");
+  document.querySelector(`option[value="{{product.difficultyLevel}}"]`).setAttribute("selected", "true");
 </script>

@@ -53,7 +53,7 @@ router.post('/:id/attach', isAuthenticated, (req, res) => {
 router.get('/:id/edit', isAuthenticated, (req, res) => {
     productService.getOne(req.params.id)
         .then(product => {
-            res.render('editCube', product)
+            res.render('editCube', { title: 'Edit cube', product });
         })
 
 });
@@ -63,5 +63,20 @@ router.post('/:id/edit', isAuthenticated, validateProduct, (req, res) => {
         .then(() => res.redirect(`/details/${req.params.id}`))
         .catch(() => res.status(500).end());
 });
+
+router.get('/:id/delete', isAuthenticated, (req, res) => {
+    productService.getOne(req.params.id)
+        .then(product => {
+            res.render('deleteCube', { title: 'Delete Cube', product });
+        })
+
+});
+
+router.post('/:id/delete', isAuthenticated, (req, res) => {
+    productService.deleteOne(req.params.id)
+        .then(() => res.redirect('/'))
+        .catch(() => res.status(500).end());
+});
+
 
 module.exports = router;
