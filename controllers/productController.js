@@ -50,4 +50,18 @@ router.post('/:id/attach', isAuthenticated, (req, res) => {
         .catch(() => res.status(500).end());
 });
 
+router.get('/:id/edit', isAuthenticated, (req, res) => {
+    productService.getOne(req.params.id)
+        .then(product => {
+            res.render('editCube', product)
+        })
+
+});
+
+router.post('/:id/edit', isAuthenticated, validateProduct, (req, res) => {
+    productService.updateOne(req.params.id, req.body)
+        .then(() => res.redirect(`/details/${req.params.id}`))
+        .catch(() => res.status(500).end());
+});
+
 module.exports = router;
