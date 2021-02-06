@@ -20,7 +20,7 @@ router.get('/create', isAuthenticated, (req, res) => {
 });
 
 router.post('/create', isAuthenticated, validateProduct, (req, res) => {
-    productService.create(req.body)
+    productService.create(req.body, req.user._id)
         .then(() => res.redirect('/'))
         .catch(() => res.status(500).end());
 });
