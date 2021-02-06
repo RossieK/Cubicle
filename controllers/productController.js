@@ -28,7 +28,13 @@ router.post('/create', isAuthenticated, validateProduct, (req, res) => {
 router.get('/details/:id', (req, res) => {
     productService.getOneWithAccessories(req.params.id)
         .then(product => {
-            res.render('details', { title: 'Details', product });
+            let isCreator = false;
+
+            if (req.user._id == product.creator) {
+                isCreator = true;
+            }
+
+            res.render('details', { title: 'Details', product, isCreator });
         })
         .catch(() => res.status(500).end());
 });
@@ -53,6 +59,9 @@ router.post('/:id/attach', isAuthenticated, (req, res) => {
 router.get('/:id/edit', isAuthenticated, (req, res) => {
     productService.getOne(req.params.id)
         .then(product => {
+            if (req.user._id !== product.creator) {
+                res.redirect(`/details/${req.params.id}`);
+            }
             res.render('editCube', { title: 'Edit cube', product });
         })
 
@@ -60,21 +69,35 @@ router.get('/:id/edit', isAuthenticated, (req, res) => {
 
 router.post('/:id/edit', isAuthenticated, validateProduct, (req, res) => {
     productService.updateOne(req.params.id, req.body)
-        .then(() => res.redirect(`/details/${req.params.id}`))
+        .then(() => {
+            if (req.user._id !== product.creator) {
+                res.redirect(`/details/${req.params.id}`);
+            }
+            res.redirect(`/details/${req.params.id}`)
+        })
         .catch(() => res.status(500).end());
 });
 
 router.get('/:id/delete', isAuthenticated, (req, res) => {
     productService.getOne(req.params.id)
         .then(product => {
+            if (req.user._id !== product.creator) {
+                res.redirect(`/details/${req.params.id}`);
+            }
             res.render('deleteCube', { title: 'Delete Cube', product });
         })
-
+        .catch(() => res.status(500).end());
 });
 
 router.post('/:id/delete', isAuthenticated, (req, res) => {
     productService.deleteOne(req.params.id)
-        .then(() => res.redirect('/'))
+        .then(() => {
+            if (req.user._id !== product.creator) {
+                res.redirect(`/details/${req.params.id}`);
+            }
+
+            res.redirect('/')
+        })
         .catch(() => res.status(500).end());
 });
 
