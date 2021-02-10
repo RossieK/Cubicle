@@ -17,12 +17,12 @@ async function register({ username, password }) {
 async function login({ username, password }) {
     let user = await User.findOne({ username });
 
-    if (!user) throw { message: 'User not found!' };
+    if (!user) throw 'User not found!';
+
 
     let isPasswordMatch = await bcrypt.compare(password, user.password);
-    if (!isPasswordMatch) throw {
-        message: 'Password doesn\'t match!'
-    }
+    if (!isPasswordMatch) throw 'Password doesn\'t match!';
+
 
     let token = jwt.sign({ _id: user._id, roles: ['admin'] }, config.SECRET);
     return token;

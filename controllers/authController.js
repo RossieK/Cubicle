@@ -19,7 +19,7 @@ router.post('/login', isGuest, async(req, res) => {
         res.cookie(config.COOKIE_NAME, token);
         res.redirect('/');
     } catch (error) {
-        res.render('login', { error });
+        res.render('login', { title: 'Login page', error });
     }
 });
 
@@ -31,14 +31,14 @@ router.post('/register', isGuest, async(req, res) => {
     const { username, password, repeatPassword } = req.body;
 
     if (password !== repeatPassword) {
-        return res.render('register', { error: { message: 'Password mismatch!' } });
+        return res.render('register', { title: 'Register page', error: 'Password mismatch!' });
     }
 
     try {
         let user = await authService.register({ username, password });
         res.redirect('/auth/login');
     } catch (error) {
-        res.render('register', { error });
+        res.render('register', { title: 'Register page', error });
     }
 });
 
